@@ -24,20 +24,24 @@ Route::get('/auth', function () {
 Route::get('/auth/google/redirect', [GoogleController::class, 'redirectToGoogle'])->name('auth.google.redirect');
 Route::get('/auth/google/callback',  [GoogleController::class, 'handleGoogleCallback'])->name('auth.google.callback');
 
-Route::get('/login', [AuthCustomController::class, 'index'])->name('auth.index');
-Route::post('/auth/login', [AuthCustomController::class, 'login'])->name('auth.login');
-Route::post('/auth/register', [AuthCustomController::class, 'register'])->name('auth.register');
-Route::match(['GET', 'POST'], '/logout', [AuthCustomController::class, 'logout'])
-    ->name('logout');
+Route::get('/login', [AuthCustomController::class, 'index'])->name('auth.login');
+Route::post('/login', [AuthCustomController::class, 'login'])->name('auth.login.post');
+
+Route::get('/register', [AuthCustomController::class, 'showRegister'])->name('auth.register');
+Route::post('/register', [AuthCustomController::class, 'register'])->name('auth.register.post');
+
+Route::post('/logout', [AuthCustomController::class, 'logout'])->name('auth.logout');
+
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::prefix('test')->group(function () {
-    Route::put('/profile/update', [ProfileController::class, 'update'])->name('test.profile.update');
-    Route::get('/profile', [ProfileController::class, 'halamanProfile'])->name('test.profile');
-    // Route::get('/profile', function () {
-    //     return view('pages.profile');
-    // })->name('test.profile');
+Route::middleware('auth')->prefix('test')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'halamanProfile'])
+        ->name('test.profile');
+
+    Route::post('/profile/update', [ProfileController::class, 'update'])
+        ->name('test.profile.update');
 });
+
 Route::get('/menu', [MenuController::class, 'showUser'])->name('menu');
 Route::get('/menu/{id}', [MenuController::class, 'showDetail'])->name('menu.show');
 Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel.index');
@@ -60,3 +64,8 @@ Route::post(
     '/admin/users/{id}/toggle-status',
     [AdminController::class, 'toggleStatus']
 )->name('admin.users.toggleStatus');
+
+
+// Route::get('/teslog', function () {
+//     return view('auth.login');
+// });

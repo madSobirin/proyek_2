@@ -217,7 +217,7 @@
         </form>
 
         <div class="container text-center mt-4 mb-5">
-            <form action="{{ route('logout') }}" method="POST">
+            <form action="{{ route('auth.logout') }}" method="POST">
                 @csrf
                 <button type="submit" class="btn btn-danger px-4">Logout</button>
             </form>

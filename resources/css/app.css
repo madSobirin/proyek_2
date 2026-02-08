@@ -1,4 +1,6 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+
+/* scan file (Laravel style) */
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -6,6 +8,27 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    /* fonts */
+    --font-display: "Inter", sans-serif;
+
+    --color-primary: #1ded73;
+    --color-background-light: #f8fcf9;
+    --color-background-dark: #102217;
+    --color-surface-light: #ffffff;
+    --color-surface-dark: #1a2c22;
+
+    /* shadows */
+    --shadow-soft: 0 20px 40px -15px rgba(0, 0, 0, 0.05);
+    --shadow-glow: 0 0 20px -5px rgba(29, 237, 115, 0.3);
+}
+
+/* global style */
+body {
+    font-family: var(--font-display);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* custom checkbox */
+.custom-checkbox:checked {
+    background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCIx1M5wSaSQjBE8CVTmFbF3c5crE4PtUXvphZ_zGPcKECdm05GDzY1K9JY8BFYoLm25Ft5_L8fiD5zCxGZysIL7rYgJrG8leCda5-o9DHHUWHj1qOv0qj1ycxhg52gjUmwOQWd4oOaEz4QO7Z2rZeUsXJ9RWS-NMuc_BVTAAk3q-VlZZJUmgRb67T0ZQWRAUNSowuG2tUH5t1N22LhlsNy9qz-rbMnvquhWmH22jR15TBp7Xm9bDPk4KCXIaHBiqNxqX-4wK2NNkg");
 }

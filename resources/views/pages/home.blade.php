@@ -118,7 +118,7 @@
                         @auth
                             <a href="{{ route('kalkulator') }}" class="btn btn-light pill-btn fw-semibold">Mulai Sekarang</a>
                         @else
-                            <a href="{{ route('auth.index') }}" class="btn btn-light pill-btn fw-semibold">Mulai Sekarang</a>
+                            <a href="{{ route('auth.login') }}" class="btn btn-light pill-btn fw-semibold">Mulai Sekarang</a>
                         @endauth
                         <a href="#fitur" class="btn btn-outline-light pill-btn">Pelajari Lebih Lanjut</a>
                     </div>
