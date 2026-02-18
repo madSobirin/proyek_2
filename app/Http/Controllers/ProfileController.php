@@ -14,14 +14,18 @@ class ProfileController extends Controller
     {
         $title = "Profil";
         $user = Auth::user();
-        return view('pages.profile', compact('user', 'title'));
+        $username = $user->username;
+        return view('pages.profile', compact('user', 'title', 'username'));
     }
     public function update(Request $request)
+    
     {
+        // dd($request->file('photo'));
         $user = Account::findOrFail(Auth::id());
+        //  $user = Auth::user();
 
         $request->validate([
-            'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:accounts,email,' . $user->id,
             'phone' => 'nullable|string|max:20',

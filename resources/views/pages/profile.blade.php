@@ -144,7 +144,7 @@
         <!-- Form membungkus avatar + fields agar submit bekerja -->
         <form action="{{ route('test.profile.update') }}" method="POST" enctype="multipart/form-data" id="profileForm">
             @csrf
-            @method('PUT')
+            @method('PATCH')
 
             {{-- AVATAR --}}
             <div id="profileArea" class="text-center">
@@ -171,7 +171,7 @@
                     <div class="col-md-6">
                         <label class="form-label">Nama Lengkap</label>
                         <input type="text" name="name" class="form-control editable"
-                            value="{{ old('name', Auth::user()->name) }}" readonly>
+                            value="{{ old('name', Auth::user()->username) }}" readonly>
                     </div>
 
                     <div class="col-md-6">

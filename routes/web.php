@@ -38,7 +38,7 @@ Route::middleware('auth')->prefix('test')->group(function () {
     Route::get('/profile', [ProfileController::class, 'halamanProfile'])
         ->name('test.profile');
 
-    Route::post('/profile/update', [ProfileController::class, 'update'])
+    Route::patch('/profile/update', [ProfileController::class, 'update'])
         ->name('test.profile.update');
 });
 
