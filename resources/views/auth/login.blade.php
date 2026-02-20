@@ -110,13 +110,6 @@
                                 <span class="material-symbols-outlined text-xl">visibility_off</span>
                             </button>
                         </div>
-                        <div class="flex items-center gap-1 mt-2 ml-1">
-                            <!-- Password Strength Indicator (Visual only) -->
-                            <div class="h-1 w-full max-w-15 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
-                                <div class="h-full w-2/3 bg-primary"></div>
-                            </div>
-                            <span class="text-xs text-primary font-medium ml-2">Strong</span>
-                        </div>
                     </div>
                     <!-- Submit Button -->
                     <button
