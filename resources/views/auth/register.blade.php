@@ -147,7 +147,7 @@
                 </div>
                 <!-- Social Login -->
                 <div class="grid grid-cols-1 gap-4">
-                    <button
+                    <a href="{{ route('auth.google.redirect') }}"
                         class="flex items-center justify-center gap-3 h-12 rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-200 group">
                         <svg class="w-5 h-5" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -165,7 +165,7 @@
                         </svg>
                         <span
                             class="text-sm font-semibold text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">Google</span>
-                    </button>
+                    </a>
                 </div>
                 <div class="text-center pt-4">
                     <span class="text-sm text-gray-500 font-medium mr-1 dark:text-gray-400">I have an account?</span>
