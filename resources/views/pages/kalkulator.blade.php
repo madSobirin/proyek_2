@@ -262,7 +262,7 @@
                     <p>Untuk mengakses kalkulator BMI ini, Anda harus masuk ke akun. Silakan login atau daftar untuk
                         melanjutkan.</p>
                     <div class="d-flex justify-content-center gap-2">
-                        <a href="{{ route('auth.index') }}" class="btn btn-fitlife">Masuk / Daftar</a>
+                        <a href="{{ route('auth.login') }}" class="btn btn-fitlife">Masuk / Daftar</a>
                         <a href="{{ route('home') }}" class="btn btn-outline-secondary">Kembali ke Beranda</a>
                     </div>
                 </div>

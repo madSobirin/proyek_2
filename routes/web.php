@@ -65,7 +65,3 @@ Route::post(
     [AdminController::class, 'toggleStatus']
 )->name('admin.users.toggleStatus');
 
-
-// Route::get('/teslog', function () {
-//     return view('auth.login');
-// });
