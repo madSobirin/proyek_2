@@ -256,4 +256,251 @@
         </div>
     </section>
 
+
+    {{-- ... kode section sebelumnya ... --}}
+
+    <div id="chatbot-container" class="fixed-bottom-right">
+
+        <button id="chatbot-toggle" class="chatbot-btn shadow-lg">
+            <i class="bi bi-chat-dots-fill" style="font-size: 24px;"></i>
+        </button>
+
+        <div id="chatbot-window" class="chatbot-window shadow-lg d-none">
+
+            <div class="chat-header d-flex justify-content-between align-items-center p-3">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="chat-avatar-icon">
+                        <i class="bi bi-robot"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0 fw-bold text-white">Health AI</h6>
+                        <span class="badge bg-success-subtle text-success border border-success-subtle"
+                            style="font-size: 10px;">Online</span>
+                    </div>
+                </div>
+                <button id="chatbot-close" class="btn btn-sm text-white"><i class="bi bi-x-lg"></i></button>
+            </div>
+
+            <div class="chat-body p-3" id="chat-messages">
+
+                <div class="d-flex gap-2 mb-3">
+                    <div
+                        class="chat-avatar-small bg-primary text-white rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-robot" style="font-size: 12px;"></i>
+                    </div>
+                    <div>
+                        <div class="chat-bubble bg-light text-dark p-2 rounded-3 shadow-sm">
+                            <small class="d-block fw-bold mb-1 text-primary">Health AI</small>
+                            Halo! Saya asisten kesehatan virtual Anda. Ada yang bisa saya bantu seputar diet atau kesehatan
+                            hari ini? 🌱
+                        </div>
+                        <small class="text-muted" style="font-size: 10px;">Baru saja</small>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="chat-footer p-2 border-top bg-white">
+                <form id="chat-form" class="d-flex align-items-center gap-2">
+                    <input type="text" id="chat-input" class="form-control form-control-sm border-0 bg-light"
+                        placeholder="Ketik pesan kesehatan..." autocomplete="off">
+                    <button type="submit"
+                        class="btn btn-primary btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                        style="width: 32px; height: 32px;">
+                        <i class="bi bi-send-fill" style="font-size: 12px;"></i>
+                    </button>
+                </form>
+                <div class="text-center mt-1">
+                    <small class="text-muted" style="font-size: 9px;">Health AI bisa membuat kesalahan. Cek info
+                        penting.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Posisi Container di Pojok Kanan Bawah */
+        .fixed-bottom-right {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: end;
+            gap: 15px;
+        }
+
+        /* Tombol Toggle Bulat */
+        .chatbot-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1fb879 0%, #0da36b 100%);
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chatbot-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Jendela Chat */
+        .chatbot-window {
+            width: 350px;
+            height: 500px;
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            animation: slideInUp 0.3s ease-out forwards;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header Chat */
+        .chat-header {
+            background: linear-gradient(135deg, #1fb879 0%, #0da36b 100%);
+        }
+
+        .chat-avatar-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        /* Body Chat */
+        .chat-body {
+            flex: 1;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        /* Bubble Chat */
+        .chat-bubble {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            max-width: 85%;
+        }
+
+        .chat-avatar-small {
+            width: 28px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+
+        /* Pesan User (Nanti dipakai lewat JS) */
+        .user-message {
+            justify-content: flex-end;
+        }
+
+        .user-message .chat-bubble {
+            background: #1fb879 !important;
+            /* Warna Hijau FitLife */
+            color: white !important;
+            border-radius: 12px 12px 0 12px;
+        }
+
+        /* Custom Scrollbar */
+        .chat-body::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .chat-body::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 10px;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleBtn = document.getElementById('chatbot-toggle');
+            const closeBtn = document.getElementById('chatbot-close');
+            const chatWindow = document.getElementById('chatbot-window');
+            const chatForm = document.getElementById('chat-form');
+            const chatInput = document.getElementById('chat-input');
+            const chatMessages = document.getElementById('chat-messages');
+
+            // Fungsi Buka/Tutup Chat
+            function toggleChat() {
+                chatWindow.classList.toggle('d-none');
+                if (!chatWindow.classList.contains('d-none')) {
+                    chatInput.focus(); // Otomatis fokus ke input saat dibuka
+                }
+            }
+
+            toggleBtn.addEventListener('click', toggleChat);
+            closeBtn.addEventListener('click', toggleChat);
+
+            // Simulasi Kirim Pesan (UI Only)
+            chatForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const message = chatInput.value.trim();
+
+                if (message) {
+                    // 1. Tambahkan Pesan User ke UI
+                    const userBubble = `
+                        <div class="d-flex gap-2 mb-3 justify-content-end">
+                            <div>
+                                <div class="chat-bubble p-2 rounded-3 shadow-sm" style="background: #1fb879; color: white; border-radius: 12px 12px 0 12px;">
+                                    ${message}
+                                </div>
+                                <small class="text-muted d-block text-end" style="font-size: 10px;">Anda • Baru saja</small>
+                            </div>
+                        </div>
+                    `;
+                    chatMessages.insertAdjacentHTML('beforeend', userBubble);
+
+                    // Reset Input
+                    chatInput.value = '';
+
+                    // Auto Scroll ke Bawah
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                    // 2. Simulasi Balasan Bot (Loading...)
+                    setTimeout(() => {
+                        const botBubble = `
+                            <div class="d-flex gap-2 mb-3">
+                                <div class="chat-avatar-small bg-primary text-white rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-robot" style="font-size: 12px;"></i>
+                                </div>
+                                <div>
+                                    <div class="chat-bubble bg-light text-dark p-2 rounded-3 shadow-sm">
+                                        <small class="d-block fw-bold mb-1 text-white">Health AI</small>
+                                        Maaf, fitur AI saya sedang dalam pengembangan. Nanti saya akan bisa menjawab pertanyaan: "${message}" 😉
+                                    </div>
+                                    <small class="text-muted" style="font-size: 10px;">Baru saja</small>
+                                </div>
+                            </div>
+                        `;
+                        chatMessages.insertAdjacentHTML('beforeend', botBubble);
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }, 1000);
+                }
+            });
+        });
+    </script>
 @endsection
