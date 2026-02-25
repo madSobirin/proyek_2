@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Artikel;
-use App\Models\kategori;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -26,7 +26,7 @@ class ArtikelController extends Controller
 
     public function create()
     {
-        $kategori = kategori::all();
+        $kategori =Kategori::all();
         // dd($kategori);
         return view('admin.artikel.create', compact('kategori'));
     }
