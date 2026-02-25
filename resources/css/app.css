@@ -1,30 +1,25 @@
 @import "tailwindcss";
 
-/* scan file (Laravel style) */
-
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
-
-@theme {
-    /* Auth start */
-    --font-display: "Inter", sans-serif;
-
+/* 1. DEFINISI VARIABLE (Logic Dark/Light) */
+:root {
+    /* Default: Light Mode Colors */
     --color-primary: #1ded73;
-    --color-background-light: #f8fcf9;
-    --color-background-dark: #102217;
-    --color-surface-light: #ffffff;
-    --color-surface-dark: #1a2c22;
-
-    /* shadows */
-    --shadow-soft: 0 20px 40px -15px rgba(0, 0, 0, 0.05);
-    --shadow-glow: 0 0 20px -5px rgba(29, 237, 115, 0.3);
-
-    /* client dashboard home */
-    /* ===== COLORS ===== */
     --color-primary-hover: #00cc66;
 
+    --color-background-base: #f8fcf9; /* Terang */
+    --color-background-dark: #f0f4f1;
+    --color-card-dark: #ffffff;
+    --color-card-border: #e2e8f0;
+
+    --color-text-light: #102217; /* Teks jadi gelap di mode terang */
+    --color-text-muted: #4b635a;
+
+    --shadow-soft: 0 20px 40px -15px rgba(0, 0, 0, 0.05);
+    --shadow-glow: 0 0 20px -5px rgba(29, 237, 115, 0.3);
+}
+
+.dark {
+    /* Overwrite: Dark Mode Colors (Nilai asli punyamu tadi) */
     --color-background-base: #031f14;
     --color-background-dark: #01120b;
 
@@ -34,20 +29,54 @@
     --color-text-light: #f0fff4;
     --color-text-muted: #8aafa1;
 
-    /* ===== RADIUS ===== */
+    --shadow-soft: 0 20px 40px -15px rgba(0, 0, 0, 0.3);
+}
+
+/* 2. PENDAFTARAN TEMA (Tailwind v4) */
+@theme {
+    --font-display: "Inter", sans-serif;
+
+    /* Pendaftaran variabel agar bisa dipakai sebagai class Tailwind */
+    --color-primary: var(--color-primary);
+    --color-primary-hover: var(--color-primary-hover);
+
+    --color-background-base: var(--color-background-base);
+    --color-background-dark: var(--color-background-dark);
+
+    --color-card-dark: var(--color-card-dark);
+    --color-card-border: var(--color-card-border);
+
+    --color-text-light: var(--color-text-light);
+    --color-text-muted: var(--color-text-muted);
+
+    --shadow-soft: var(--shadow-soft);
+    --shadow-glow: var(--shadow-glow);
+
+    /* Radius tetap sama */
     --radius: 0.5rem;
     --radius-xl: 1rem;
     --radius-2xl: 1.5rem;
 }
 
-/* global style */
+/* Scan file (Laravel style) */
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+/* Global style */
 body {
     font-family: var(--font-display);
     -webkit-font-smoothing: antialiased;
+    /* Tambahkan transisi agar perpindahan warna halus */
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
+    background-color: var(--color-background-base);
+    color: var(--color-text-light);
 }
 
-/* custom checkbox */
+/* Custom checkbox */
 .custom-checkbox:checked {
     background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCIx1M5wSaSQjBE8CVTmFbF3c5crE4PtUXvphZ_zGPcKECdm05GDzY1K9JY8BFYoLm25Ft5_L8fiD5zCxGZysIL7rYgJrG8leCda5-o9DHHUWHj1qOv0qj1ycxhg52gjUmwOQWd4oOaEz4QO7Z2rZeUsXJ9RWS-NMuc_BVTAAk3q-VlZZJUmgRb67T0ZQWRAUNSowuG2tUH5t1N22LhlsNy9qz-rbMnvquhWmH22jR15TBp7Xm9bDPk4KCXIaHBiqNxqX-4wK2NNkg");
 }
-/* Auth End */
