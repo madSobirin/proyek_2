@@ -42,7 +42,7 @@ Route::middleware('auth')->prefix('test')->group(function () {
         ->name('test.profile.update');
 });
 
-Route::get('/menu', [MenuController::class, 'showUser'])->name('menu');
+Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 Route::get('/menu/{id}', [MenuController::class, 'showDetail'])->name('menu.show');
 Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel.index');
 Route::get('/artikel/{slug}', [ArtikelController::class, 'show'])->name('artikel.show');

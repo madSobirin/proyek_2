@@ -1,88 +1,96 @@
 @extends('layouts.main')
 
 @section('title', $title)
+
 @section('content')
-    <style>
-        .menu-hero {
-            background: #e9f6ef;
-            padding: 28px 0 18px;
-        }
-
-        .menu-hero .badge {
-            font-weight: 600;
-        }
-
-        .detail-card {
-            background: #fff;
-            border-radius: 18px;
-            box-shadow: 0 18px 44px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
-        }
-
-        .detail-img {
-            width: 100%;
-            height: 450px;
-            object-fit: cover;
-        }
-
-        .detail-header {
-            margin-bottom: 18px;
-        }
-
-        @media (max-width: 576px) {
-            .menu-hero {
-                padding: 20px 0 12px;
-            }
-
-            .detail-img {
-                height: 200px;
-            }
-        }
-    </style>
-
-    <section class="menu-hero">
-        <div class="container text-center">
-            {{-- <div class="fitlife-icon mx-auto mb-2"><i class="bi bi-egg-fried"></i></div> --}}
-            <h2 class="fw-bold mb-0">{{ $menu->nama_menu }}</h2>
-            <div class="text-muted small">
-                <i class="bi bi-calendar me-1"></i>{{ $menu->created_at?->format('d M Y') }} &nbsp; | &nbsp;
-                <i class="bi bi-eye me-1"></i>{{ $menu->dibaca }} kali dibaca
+    <div class="bg-background-base min-h-screen transition-colors duration-300">
+        {{-- Hero Header --}}
+        <section class="bg-background-dark py-12 transition-colors">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <nav class="flex justify-center mb-6">
+                    <a href="{{ route('menu') }}"
+                        class="flex items-center gap-2 text-primary hover:text-primary-hover font-bold text-sm transition-all group">
+                        <span class="material-icons-round transition-transform group-hover:-translate-x-1">arrow_back</span>
+                        Kembali ke Katalog
+                    </a>
+                </nav>
+                <h2 class="text-3xl md:text-5xl font-black tracking-tighter text-text-light mb-4">{{ $menu->nama_menu }}</h2>
+                <div
+                    class="flex justify-center items-center gap-6 text-xs font-bold text-text-muted uppercase tracking-widest">
+                    <span class="flex items-center gap-2"><span
+                            class="material-icons-round text-primary text-sm">calendar_today</span>
+                        {{ $menu->created_at?->format('d M Y') }}</span>
+                    <span class="flex items-center gap-2"><span
+                            class="material-icons-round text-primary text-sm">visibility</span> {{ $menu->dibaca }}
+                        Kali</span>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <div class="container py-5">
-        <div class="detail-header">
-            <a href="{{ route('menu') }}" class="btn btn-outline-success">
-                <i class="bi bi-arrow-left"></i> Kembali
-            </a>
-        </div>
-
-        <div class="card shadow-sm border-0 rounded-4 overflow-hidden detail-card">
-            @if ($menu->gambar)
-                <img src="{{ Storage::url($menu->gambar) }}" alt="{{ $menu->nama_menu }}" class="w-100 detail-img">
-            @endif
-
-            <div class="p-4">
-                <h3 class="fw-bold mb-2">{{ $menu->nama_menu }}</h3>
-
-
-                <div class="d-flex gap-4 align-items-center mb-3 text-muted">
-                    <div class="d-flex align-items-center gap-2 fw-semibold">
-                        <span class="badge bg-success-subtle text-success rounded-3 p-2">
-                            <i class="bi bi-fire"></i>
-                        </span>
-                        <span>{{ !is_null($menu->kalori ?? null) ? $menu->kalori . ' kkal' : 'Kalori belum ada' }}</span>
-                    </div>
-                    <div class="d-flex align-items-center gap-2 fw-semibold">
-                        <span class="badge bg-success-subtle text-success rounded-3 p-2">
-                            <i class="bi bi-clock-history"></i>
-                        </span>
-                        <span>{{ !is_null($menu->waktu_memasak ?? null) ? $menu->waktu_memasak . ' menit' : 'Waktu belum ada' }}</span>
-                    </div>
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 -mt-8">
+            <div class="bg-card-dark rounded-3xl overflow-hidden shadow-soft border border-card-border">
+                {{-- Detail Image --}}
+                <div class="relative h-75 md:h-125">
+                    <img src="{{ $menu->gambar ? Storage::url($menu->gambar) : asset('images/salad.jpg') }}"
+                        alt="{{ $menu->nama_menu }}" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-linear-to-t from-card-dark/60 to-transparent"></div>
                 </div>
 
-                <p class="fs-6" style="line-height:1.7rem;">{!!$menu->deskripsi !!}</p>
+                <div class="p-8 md:p-12 relative">
+                    {{-- Nutrition Badges --}}
+                    <div class="flex flex-wrap gap-4 mb-10 -mt-20 relative z-10">
+                        <div
+                            class="bg-card-dark border border-card-border p-4 rounded-2xl shadow-soft flex items-center gap-4">
+                            <div class="size-10 bg-primary/10 text-primary rounded-xl flex items-center justify-center">
+                                <span class="material-icons-round">local_fire_department</span>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-black text-text-muted uppercase tracking-widest">Kalori</p>
+                                <p class="text-lg font-black text-text-light">{{ $menu->kalori ?? '0' }} <span
+                                        class="text-xs">kkal</span></p>
+                            </div>
+                        </div>
+                        <div
+                            class="bg-card-dark border border-card-border p-4 rounded-2xl shadow-soft flex items-center gap-4">
+                            <div class="size-10 bg-primary/10 text-primary rounded-xl flex items-center justify-center">
+                                <span class="material-icons-round">schedule</span>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-black text-text-muted uppercase tracking-widest">Waktu</p>
+                                <p class="text-lg font-black text-text-light">{{ $menu->waktu_memasak ?? '0' }} <span
+                                        class="text-xs">mnt</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Main Content --}}
+                    <div class="prose prose-emerald max-w-none dark:prose-invert">
+                        <h3 class="text-2xl font-black text-text-light mb-6 tracking-tight">Cara Menyiapkan Menu Ini</h3>
+                        <div class="text-text-muted leading-relaxed text-lg space-y-6">
+                            {!! $menu->deskripsi !!}
+                        </div>
+                    </div>
+
+                    {{-- Interactive Footer --}}
+                    <div class="mt-16 pt-8 border-t border-card-border flex flex-wrap justify-between items-center gap-6">
+                        <div class="flex items-center gap-4">
+                            <span class="text-sm font-bold text-text-light">Bagikan:</span>
+                            <button
+                                class="size-10 rounded-full border border-card-border flex items-center justify-center text-text-muted hover:text-primary hover:border-primary transition-all">
+                                <span class="material-icons-round text-lg">share</span>
+                            </button>
+                            <button
+                                class="size-10 rounded-full border border-card-border flex items-center justify-center text-text-muted hover:text-red-500 hover:border-red-500 transition-all">
+                                <span class="material-icons-round text-lg">favorite</span>
+                            </button>
+                        </div>
+                        <a href="{{ route('kalkulator') }}"
+                            class="inline-flex items-center gap-2 bg-primary/10 text-primary px-6 py-3 rounded-xl font-bold text-sm hover:bg-primary hover:text-background-base transition-all">
+                            Cocokkan dengan BMI Anda
+                            <span class="material-icons-round">trending_up</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

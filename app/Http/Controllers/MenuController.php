@@ -5,15 +5,26 @@ namespace App\Http\Controllers;
 use App\Models\Menu;
 use Illuminate\Http\Request;
 
+
 class MenuController extends Controller
 {
+   public function index(Request $request)
+{
+    $search = $request->input('search');
 
-    public function showUser()
-    {
-        $title = "Menu";
-        $menus = Menu::latest()->get();
-        return view('pages.menu', compact('menus', 'title'));
-    }
+    $menus = Menu::query()
+        ->when($search, function ($query, $search) {
+            return $query->where('nama_menu', 'like', "%{$search}%")
+                         ->orWhere('deskripsi', 'like', "%{$search}%");
+        })
+        ->latest()
+        ->get();
+
+    return view('pages.menu', [ // Pastikan path view sesuai (pages.menu)
+        'title' => 'Menu Sehat Premium',
+        'menus' => $menus
+    ]);
+}
 
 
     public function showDetail($id)
