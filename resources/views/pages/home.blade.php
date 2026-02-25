@@ -67,7 +67,7 @@
                         Hitung indeks massa tubuh anda dan dapatkan rekomendasi berat badan ideal.
                     </p>
                     <a class="w-full bg-transparent border border-primary text-primary hover:bg-primary hover:text-background-dark py-3 rounded-xl font-bold transition"
-                        href="#">
+                        href="{{ route('kalkulator') }}">
                         Lihat Detail
                     </a>
                 </div>
@@ -82,7 +82,7 @@
                         Temukan berbagai pilihan menu makanan sehat untuk diet anda.
                     </p>
                     <a class="w-full bg-transparent border border-primary text-primary hover:bg-primary hover:text-background-dark py-3 rounded-xl font-bold transition"
-                        href="#">
+                        href="{{ route('menu') }}">
                         Lihat Detail
                     </a>
                 </div>
@@ -97,7 +97,7 @@
                         Baca artikel dan tips seputar diet serta pola hidup sehat.
                     </p>
                     <a class="w-full bg-transparent border border-primary text-primary hover:bg-primary hover:text-background-dark py-3 rounded-xl font-bold transition"
-                        href="#">
+                        href="{{ route('artikel.index') }}">
                         Lihat Detail
                     </a>
                 </div>

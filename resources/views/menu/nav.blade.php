@@ -3,7 +3,7 @@
     use Illuminate\Support\Facades\Storage;
 @endphp
 
-<nav class="sticky top-0 z-50 bg-background-base/90 backdrop-blur-md border-b border-card-border">
+<nav x-data="{ open: false }" class="sticky top-0 z-50 bg-background-base/90 backdrop-blur-md border-b border-card-border">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-20">
 
@@ -112,11 +112,42 @@
 
             {{-- Mobile Menu Button --}}
             <div class="md:hidden flex items-center">
-                <button class="text-text-light hover:text-primary transition">
+                <button @click="open = !open" class="text-text-light hover:text-primary transition">
                     <span class="material-icons-round text-3xl">menu</span>
                 </button>
             </div>
 
+        </div>
+    </div>
+
+    {{-- Mobile Dropdown --}}
+    <div x-show="open" x-transition @click.away="open = false"
+        class="md:hidden bg-background-base border-t border-card-border">
+
+        <div class="px-6 py-6 flex flex-col gap-4">
+
+            <a href="{{ route('home') }}" class="text-text-muted hover:text-primary transition">
+                Home
+            </a>
+
+            <a href="{{ route('kalkulator') }}" class="text-text-muted hover:text-primary transition">
+                Kalkulator BMI
+            </a>
+
+            <a href="{{ route('menu') }}" class="text-text-muted hover:text-primary transition">
+                Menu Sehat
+            </a>
+
+            <a href="{{ route('artikel.index') }}" class="text-text-muted hover:text-primary transition">
+                Artikel
+            </a>
+
+            @guest
+                <a href="{{ route('auth.login') }}"
+                    class="mt-4 bg-primary text-background-dark px-4 py-2 rounded-lg font-semibold text-center">
+                    Login
+                </a>
+            @endguest
         </div>
     </div>
 </nav>
