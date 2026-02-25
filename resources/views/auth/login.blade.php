@@ -1,32 +1,29 @@
 <!DOCTYPE html>
-
-<html class="light" lang="en">
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>FitTech - Tech-Luxury Register Screen</title>
-    <!-- Fonts -->
+    <title>FitLife - Login</title>
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&amp;display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap"
         rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <!-- Tailwind CSS -->
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
+{{-- Menggunakan variabel transisi agar perpindahan tema halus --}}
+
 <body
-    class="bg-background-light dark:bg-background-dark text-[#111814] dark:text-white min-h-screen flex flex-col font-display overflow-hidden">
-    <!-- Navbar (Minimalist Header) -->
-    <header class="absolute top-0 left-0 w-full z-10 px-6 py-6 md:px-12 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-            <div class="size-8 text-[#111814] dark:text-white">
+    class="bg-background-base text-text-light min-h-screen flex flex-col font-display overflow-x-hidden transition-colors duration-300">
+
+    <header class="absolute top-0 left-0 w-full z-20 px-6 py-6 md:px-12 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-3 group">
+            <div class="size-8 text-primary group-hover:scale-110 transition-transform">
+                {{-- Logo SVG tetap sama --}}
                 <svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M13.8261 30.5736C16.7203 29.8826 20.2244 29.4783 24 29.4783C27.7756 29.4783 31.2797 29.8826 34.1739 30.5736C36.9144 31.2278 39.9967 32.7669 41.3563 33.8352L24.8486 7.36089C24.4571 6.73303 23.5429 6.73303 23.1514 7.36089L6.64374 33.8352C8.00331 32.7669 11.0856 31.2278 13.8261 30.5736Z"
@@ -36,113 +33,116 @@
                         fill="currentColor" fill-rule="evenodd"></path>
                 </svg>
             </div>
-            <span class="font-bold text-lg tracking-tight">FitTech</span>
-        </div>
+            <span class="font-bold text-xl tracking-tight text-text-light">FitLife</span>
+        </a>
         <div class="hidden md:block">
-            <span class="text-sm text-gray-500 font-medium mr-2 dark:text-gray-400">Already a member?</span>
-            <a class="text-sm font-bold hover:text-primary transition-colors duration-200" href="#">Sign In</a>
+            <span class="text-sm text-text-muted font-medium mr-2">Don't have an account?</span>
+            <a class="text-sm font-bold text-primary hover:underline transition-all"
+                href="{{ route('auth.register') }}">Sign Up</a>
         </div>
     </header>
+
     <div class="flex flex-1 w-full min-h-screen">
-        <!-- Left Side: 3D Visual -->
-        <div class="hidden lg:flex w-[45%] xl:w-[50%] relative items-center justify-center p-8 lg:p-16">
-            <!-- Subtle background blob -->
+
+        <div class="hidden lg:flex w-[45%] xl:w-[50%] relative items-center justify-center p-8 lg:p-16 overflow-hidden">
+            {{-- Background dekoratif yang dinamis --}}
             <div
-                class="absolute inset-0 bg-[#f0fdf4] dark:bg-[#152e20] z-0 skew-x-[-5deg] origin-top-left -ml-20 w-[120%]">
+                class="absolute inset-0 bg-primary/5 dark:bg-primary/10 z-0 skew-x-[-5deg] origin-top-left -ml-20 w-[120%] transition-colors duration-500">
             </div>
+
             <div class="relative z-10 w-full h-full flex flex-col justify-center">
-                <div class="aspect-square relative w-full max-w-150 mx-auto">
-                    <img alt="Stylized 3D rendering of a modern matte black dumbbell floating in a clean studio"
-                        class="w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-700 ease-in-out"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdccM75rveHr9ewK4pM05KoXqbLcOf-7-y0tTTtA5TyOVNzvHCY87s8prAeDcLtNaEmt4e9-_tmnJ2GofwsDCrM9IHNbUU38MNNEnqIO05SROslJjGHiiYarHRtiRcW1rA2P2x7Ou_ywE0SDY2gfKUA-9Qv8-1R8rQ06YwsCwsNYmdRcQBZJ6KjWPkLMh-2GSb1kpPYIv69X1M37bgxv-Tbozy1w6qRsf6oXgrGYapiV9YMczDqnxbcCWbg9KsTqsWVqI0h7J29OY"
-                        style="filter: drop-shadow(0 20px 40px rgba(0,0,0,0.15));" />
+                <div class="aspect-square relative w-full max-w-150 mx-auto group">
+                    {{-- Glow Effect di belakang gambar saat Dark Mode --}}
+                    <div
+                        class="absolute inset-0 bg-primary/20 blur-[100px] rounded-full opacity-0 dark:opacity-100 transition-opacity duration-500">
+                    </div>
+
+                    <img alt="Dumbbell"
+                        class="w-full h-full object-contain drop-shadow-2xl group-hover:scale-105 transition-transform duration-700 ease-in-out relative z-10"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdccM75rveHr9ewK4pM05KoXqbLcOf-7-y0tTTtA5TyOVNzvHCY87s8prAeDcLtNaEmt4e9-_tmnJ2GofwsDCrM9IHNbUU38MNNEnqIO05SROslJjGHiiYarHRtiRcW1rA2P2x7Ou_ywE0SDY2gfKUA-9Qv8-1R8rQ06YwsCwsNYmdRcQBZJ6KjWPkLMh-2GSb1kpPYIv69X1M37bgxv-Tbozy1w6qRsf6oXgrGYapiV9YMczDqnxbcCWbg9KsTqsWVqI0h7J29OY" />
                 </div>
                 <div class="mt-8 max-w-md mx-auto text-center lg:text-left">
                     <div class="flex items-center gap-2 mb-4 justify-center lg:justify-start">
                         <span class="material-symbols-outlined text-primary text-3xl">bolt</span>
-                        <span class="uppercase tracking-widest text-xs font-bold text-gray-400">Next Gen
-                            Performance</span>
+                        <span class="uppercase tracking-widest text-xs font-bold text-text-muted">High Performance
+                            Living</span>
                     </div>
-                    <h2
-                        class="text-3xl xl:text-4xl font-black tracking-tighter leading-tight text-gray-900 dark:text-white">
+                    <h2 class="text-3xl xl:text-5xl font-black tracking-tighter leading-tight text-text-light">
                         Design your body.<br />
-                        Defy your limits.
+                        <span class="text-primary">Defy your limits.</span>
                     </h2>
                 </div>
             </div>
         </div>
-        <!-- Right Side: Registration Form -->
+
         <div
-            class="w-full lg:w-[55%] xl:w-[50%] flex flex-col justify-center items-center p-6 sm:p-12 lg:p-20 bg-background-light dark:bg-background-dark z-10">
-            <div class="w-full max-w-125 space-y-8 animate-fade-in-up">
-                <!-- Form Header -->
-                <div class="space-y-2">
-                    <h1 class="text-4xl font-black tracking-[-0.03em] text-[#111814] dark:text-white">Unlock Your
-                        Potential</h1>
-                    <p class="text-gray-500 dark:text-gray-400 text-base font-normal leading-relaxed">
-                        Create your profile to access elite tracking and coaching.
+            class="w-full lg:w-[55%] xl:w-[50%] flex flex-col justify-center items-center p-6 sm:p-12 lg:p-20 bg-background-base z-10 transition-colors duration-300">
+            <div class="w-full max-w-md space-y-8 animate-fade-in-up">
+
+                <div class="space-y-2 text-center lg:text-left">
+                    <h1 class="text-4xl font-black tracking-tighter text-text-light">Welcome Back</h1>
+                    <p class="text-text-muted text-base font-normal">
+                        Enter your credentials to access your dashboard.
                     </p>
                 </div>
-                <!-- Main Form -->
+
                 <form class="space-y-5" action="{{ route('auth.login.post') }}" method="POST">
                     @csrf
-                    <!-- Email Field -->
+
                     <div class="group">
-                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5 ml-1">Email
-                            Address</label>
+                        <label class="block text-sm font-semibold text-text-muted mb-1.5 ml-1">Email Address</label>
                         <div class="relative">
                             <input
-                                class="w-full h-14 bg-white dark:bg-surface-dark rounded-lg border-0 ring-1 ring-gray-200 dark:ring-gray-700 focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-surface-dark transition-all duration-200 pl-4 pr-4 placeholder:text-gray-400 text-base font-medium text-gray-900 dark:text-white shadow-sm hover:ring-gray-300 dark:hover:ring-gray-600"
-                                placeholder="name@example.com" type="email" name="email" />
+                                class="w-full h-14 bg-card-dark dark:bg-background-dark rounded-xl border-0 ring-1 ring-card-border focus:ring-2 focus:ring-primary transition-all duration-200 pl-4 pr-4 placeholder:text-text-muted/50 text-base font-medium text-text-light shadow-sm"
+                                placeholder="name@example.com" type="email" name="email" required />
                         </div>
                     </div>
-                    <!-- Password Field -->
+
                     <div class="group">
-                        <label
-                            class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5 ml-1">Password</label>
+                        <div class="flex justify-between items-center mb-1.5 ml-1">
+                            <label class="text-sm font-semibold text-text-muted">Password</label>
+                            <a href="#" class="text-xs text-primary font-bold hover:underline">Forgot?</a>
+                        </div>
                         <div class="relative">
                             <input
-                                class="w-full h-14 bg-white dark:bg-surface-dark rounded-lg border-0 ring-1 ring-gray-200 dark:ring-gray-700 focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-surface-dark transition-all duration-200 pl-4 pr-12 placeholder:text-gray-400 text-base font-medium text-gray-900 dark:text-white shadow-sm hover:ring-gray-300 dark:hover:ring-gray-600"
-                                placeholder="Create a secure password" type="password" name="password" />
+                                class="w-full h-14 bg-card-dark dark:bg-background-dark rounded-xl border-0 ring-1 ring-card-border focus:ring-2 focus:ring-primary transition-all duration-200 pl-4 pr-12 placeholder:text-text-muted/50 text-base font-medium text-text-light shadow-sm"
+                                placeholder="••••••••" type="password" name="password" required />
                             <button
-                                class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+                                class="absolute right-4 top-1/2 -translate-y-1/2 text-text-muted hover:text-primary transition-colors"
                                 type="button">
-                                <span class="material-symbols-outlined text-xl">visibility_off</span>
+                                <span class="material-symbols-outlined text-xl">visibility</span>
                             </button>
                         </div>
                     </div>
-                    <!-- Submit Button -->
+
                     <button
-                        class="w-full h-14 bg-primary hover:bg-[#15d665] text-[#111814] font-bold cursor-pointer text-base rounded-lg shadow-glow hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:shadow-md transition-all duration-200 flex items-center justify-center gap-2 mt-4">
+                        class="w-full h-14 bg-primary hover:bg-primary-hover text-background-base font-bold cursor-pointer text-base rounded-xl shadow-glow hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 flex items-center justify-center gap-2 mt-6">
                         <span>Sign In</span>
-                        <span class="material-symbols-outlined text-lg">arrow_forward</span>
+                        <span class="material-symbols-outlined text-lg">login</span>
                     </button>
                 </form>
 
-                <!-- Alert Messages -->
-                @if (session('success'))
-                    <div class="mt-4 text-green-600 text-sm text-center">{{ session('success') }}</div>
-                @endif
                 @if (session('error'))
-                    <div class="mt-4 text-red-600 text-sm text-center">{{ session('error') }}</div>
+                    <div
+                        class="p-4 bg-red-500/10 border border-red-500/20 text-red-500 text-sm rounded-xl text-center font-medium">
+                        {{ session('error') }}
+                    </div>
                 @endif
 
-
-                <!-- Divider -->
                 <div class="relative py-2">
                     <div class="absolute inset-0 flex items-center">
-                        <div class="w-full border-t border-gray-200 dark:border-gray-700"></div>
+                        <div class="w-full border-t border-card-border"></div>
                     </div>
                     <div class="relative flex justify-center text-sm">
-                        <span class="bg-background-light dark:bg-background-dark px-4 text-gray-500 font-medium">Or
-                            continue with</span>
+                        <span class="bg-background-base px-4 text-text-muted font-medium italic">or secure login
+                            with</span>
                     </div>
                 </div>
-                <!-- Social Login -->
+
                 <div class="grid grid-cols-1 gap-4">
                     <a href="{{ route('auth.google.redirect') }}"
-                        class="flex items-center justify-center gap-3 h-12 rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-200 group">
-                        <svg class="w-5 h-5" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        class="flex items-center justify-center gap-3 h-14 rounded-xl bg-card-dark border border-card-border hover:border-primary transition-all duration-200 group">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24">
                             <path
                                 d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
                                 fill="#4285F4"></path>
@@ -156,14 +156,14 @@
                                 d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                                 fill="#EA4335"></path>
                         </svg>
-                        <span
-                            class="text-sm font-semibold text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">Google</span>
+                        <span class="text-sm font-bold text-text-light">Continue with Google</span>
                     </a>
                 </div>
-                <div class="text-center pt-4">
-                    <span class="text-sm text-gray-500 font-medium mr-1 dark:text-gray-400">I have an account?</span>
-                    <a class="text-sm font-bold text-[#111814] dark:text-white underline hover:text-primary transition-colors duration-200"
-                        href="{{ route('auth.register') }}">Sign Up</a>
+
+                <div class="text-center pt-4 md:hidden">
+                    <span class="text-sm text-text-muted">New to FitLife?</span>
+                    <a class="text-sm font-bold text-primary underline ml-1" href="{{ route('auth.register') }}">Create
+                        Account</a>
                 </div>
             </div>
         </div>

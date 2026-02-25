@@ -64,24 +64,42 @@ else document.documentElement.classList.remove('dark');"
                 </button>
 
                 @if (Auth::check())
-                    {{-- Avatar Logic Tetap Sama --}}
                     @php
                         $user = Auth::user();
                         $profilePhoto = asset('default-user.png');
-                        // ... (logika foto profil Anda sebelumnya)
+
+                        if (!empty($user->photo)) {
+                            $path = $user->photo;
+                            $profilePhoto = Storage::url($path);
+                        } elseif (!empty($user->google_avatar)) {
+                            $profilePhoto = $user->google_avatar;
+                        }
                     @endphp
 
+                    {{-- ✅ Avatar --}}
                     <a href="{{ route('test.profile') }}"
-                        class="relative w-10 h-10 rounded-full ring-2 ring-primary/40 hover:ring-primary transition duration-300 hover:scale-105">
+                        class="relative w-10 h-10 rounded-full
+                   ring-2 ring-primary/40 hover:ring-primary
+                   transition duration-300 hover:scale-105">
+
                         <div class="w-full h-full rounded-full overflow-hidden">
                             <img src="{{ $profilePhoto }}" alt="Profile" class="w-full h-full object-cover">
                         </div>
+
                         <span
-                            class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-green-400 rounded-full ring-2 ring-background-base"></span>
+                            class="absolute -bottom-1 -right-1
+                       w-3.5 h-3.5 bg-green-400
+                       rounded-full ring-2 ring-background-base">
+                        </span>
                     </a>
                 @else
+                    {{-- ✅ Login --}}
                     <a href="{{ route('auth.login') }}"
-                        class="bg-primary hover:bg-primary-hover text-background-dark px-6 py-2.5 rounded-full font-semibold shadow-[0_0_15px_rgba(0,255,127,0.3)] transition transform hover:-translate-y-0.5">
+                        class="bg-primary hover:bg-primary-hover
+                   text-background-dark px-6 py-2.5
+                   rounded-full font-semibold
+                   shadow-[0_0_15px_rgba(0,255,127,0.3)]
+                   transition transform hover:-translate-y-0.5">
                         Login
                     </a>
                 @endif
