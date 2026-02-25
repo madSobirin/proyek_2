@@ -20,7 +20,7 @@ class AuthApiController extends Controller
         ], 401);
     }
     
- /** @var \App\Models\Account $account */
+//  /** @var \App\Models\Account $account */
     $account = Auth::user(); 
 
     $token = $account->createToken('flutter_token')->plainTextToken;

@@ -141,7 +141,7 @@
                 Bergabunglah dengan ribuan pengguna yang telah merasakan manfaat hidup lebih sehat.
             </p>
             <a class="inline-block bg-primary text-background-dark hover:bg-white hover:text-background-dark px-10 py-4 rounded-full font-bold text-lg shadow-[0_0_25px_rgba(0,255,127,0.5)] transition transform hover:scale-105"
-                href="#">
+                href="{{ route('kalkulator') }}">
                 Hitung BMI Sekarang
             </a>
         </div>
