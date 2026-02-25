@@ -2,82 +2,121 @@
     use Illuminate\Support\Str;
     use Illuminate\Support\Facades\Storage;
 @endphp
-<nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top" style="z-index: 50;">
-    <div class="container py-2">
-        <a class="navbar-brand d-flex align-items-center fw-bold" href="{{ route('home') }}" style="color:#1fb879;">
-            <img src="{{ asset('images/logo.png') }}" alt="FitLife Logo" class="me-2"
-                style="width:36px; height:36px; object-fit:contain;">
-            FitLife.id
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
-                <li class="nav-item">
-                    <a class="nav-link px-3 {{ request()->is('/') || request()->is('home') ? 'fw-semibold text-success' : '' }}"
-                        href="{{ route('home') }}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link px-3 {{ request()->is('kalkulator') ? 'fw-semibold text-success' : '' }}"
-                        href="{{ route('kalkulator') }}">Kalkulator BMI</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link px-3 {{ request()->is('menu') ? 'fw-semibold text-success' : '' }}"
-                        href="{{ route('menu') }}">Menu Sehat</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link px-3 {{ request()->is('artikel') ? 'fw-semibold text-success' : '' }}"
-                        href="{{ route('artikel.index') }}">Artikel</a>
-                </li>
-                <li class="nav-item ms-lg-2">
-                    @if (Auth::check())
-                        @php
+<nav class="sticky top-0 z-50 bg-background-base/90 backdrop-blur-md border-b border-card-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
 
-                            $user = Auth::user();
-                            $profilePhoto = asset('default-user.png'); // default
+            {{-- Logo --}}
+            <a href="{{ route('home') }}" class="flex items-center gap-2 text-primary font-bold text-lg">
+                <img src="{{ asset('images/logo.png') }}" alt="FitLife Logo" class="w-9 h-9 object-contain">
+                <span>FitLife.id</span>
+            </a>
 
-                            if (!empty($user->photo)) {
-                                // Foto upload user — selalu prioritas
-                                $path = $user->photo;
+            {{-- Desktop Menu --}}
+            <div x-data="{ active: '{{ Route::currentRouteName() }}' }" class="hidden md:flex items-center gap-8">
+
+                <a href="{{ route('home') }}" @click="active = 'home'"
+                    :class="active === 'home'
+                        ?
+                        'text-primary border-b-2 border-primary' :
+                        'text-text-muted hover:text-primary'"
+                    class="font-medium transition pb-1">
+                    Home
+                </a>
+
+                <a href="{{ route('kalkulator') }}" @click="active = 'kalkulator'"
+                    :class="active === 'kalkulator'
+                        ?
+                        'text-primary border-b-2 border-primary' :
+                        'text-text-muted hover:text-primary'"
+                    class="font-medium transition pb-1">
+                    Kalkulator BMI
+                </a>
+
+                <a href="{{ route('menu') }}" @click="active = 'menu'"
+                    :class="active === 'menu'
+                        ?
+                        'text-primary border-b-2 border-primary' :
+                        'text-text-muted hover:text-primary'"
+                    class="font-medium transition pb-1">
+                    Menu Sehat
+                </a>
+
+                <a href="{{ route('artikel.index') }}" @click="active = 'artikel.index'"
+                    :class="active === 'artikel.index'
+                        ?
+                        'text-primary border-b-2 border-primary' :
+                        'text-text-muted hover:text-primary'"
+                    class="font-medium transition pb-1">
+                    Artikel
+                </a>
+            </div>
+
+            {{-- Right Section --}}
+            <div class="hidden md:flex items-center">
+
+                @if (Auth::check())
+                    @php
+                        $user = Auth::user();
+                        $profilePhoto = asset('default-user.png');
+
+                        if (!empty($user->photo)) {
+                            $path = $user->photo;
+                            $profilePhoto = Storage::url($path);
+                            if (Storage::disk('public')->exists($path)) {
+                                $profilePhoto .= '?v=' . Storage::disk('public')->lastModified($path);
+                            }
+                        } elseif (!empty($user->google_avatar)) {
+                            if (Str::startsWith($user->google_avatar, 'http')) {
+                                $profilePhoto = $user->google_avatar;
+                            } else {
+                                $path = $user->google_avatar;
                                 $profilePhoto = Storage::url($path);
-
-                                // Cache buster agar foto baru langsung muncul
                                 if (Storage::disk('public')->exists($path)) {
                                     $profilePhoto .= '?v=' . Storage::disk('public')->lastModified($path);
                                 }
-                            } elseif (!empty($user->google_avatar)) {
-                                // Jika avatar google berupa URL penuh
-                                if (Str::startsWith($user->google_avatar, 'http')) {
-                                    $profilePhoto = $user->google_avatar;
-                                } else {
-                                    // Jika google_avatar disimpan sebagai file (profile/xxxx.jpg)
-                                    $path = $user->google_avatar;
-                                    $profilePhoto = Storage::url($path);
-
-                                    if (Storage::disk('public')->exists($path)) {
-                                        $profilePhoto .= '?v=' . Storage::disk('public')->lastModified($path);
-                                    }
-                                }
                             }
-                        @endphp
+                        }
+                    @endphp
 
-                        <a href="{{ route('test.profile') }}" class="d-inline-block"
-                            style="width:30px; height:30px; border-radius:50%; overflow:hidden;">
-                            <img src="{{ $profilePhoto }}" alt="Profile"
-                                style="width:100%; height:100%; object-fit:cover;">
-                        </a>
-                    @else
-                        {{-- Jika belum login --}}
-                        <a class="btn btn-success px-3 py-2 rounded-pill fw-semibold" href="{{ route('auth.login') }}">
-                            Login
-                        </a>
-                    @endif
-                </li>
+                    {{-- Avatar --}}
+                    <a href="{{ route('test.profile') }}"
+                        class="relative w-10 h-10 rounded-full
+                              ring-2 ring-primary/40 hover:ring-primary
+                              transition duration-300 hover:scale-105">
 
+                        <div class="w-full h-full rounded-full overflow-hidden">
+                            <img src="{{ $profilePhoto }}" alt="Profile" class="w-full h-full object-cover">
+                        </div>
 
-            </ul>
+                        {{-- Online Indicator (keluar sedikit) --}}
+                        <span
+                            class="absolute -bottom-1 -right-1
+                                     w-3.5 h-3.5 bg-green-400
+                                     rounded-full ring-2 ring-background-base">
+                        </span>
+                    </a>
+                @else
+                    {{-- Login Button --}}
+                    <a href="{{ route('auth.login') }}"
+                        class="bg-primary hover:bg-primary-hover
+                              text-background-dark px-6 py-2.5
+                              rounded-full font-semibold
+                              shadow-[0_0_15px_rgba(0,255,127,0.3)]
+                              transition transform hover:-translate-y-0.5">
+                        Login
+                    </a>
+                @endif
+            </div>
+
+            {{-- Mobile Menu Button --}}
+            <div class="md:hidden flex items-center">
+                <button class="text-text-light hover:text-primary transition">
+                    <span class="material-icons-round text-3xl">menu</span>
+                </button>
+            </div>
+
         </div>
     </div>
 </nav>

@@ -8,7 +8,7 @@
 @source '../**/*.js';
 
 @theme {
-    /* fonts */
+    /* Auth start */
     --font-display: "Inter", sans-serif;
 
     --color-primary: #1ded73;
@@ -20,6 +20,24 @@
     /* shadows */
     --shadow-soft: 0 20px 40px -15px rgba(0, 0, 0, 0.05);
     --shadow-glow: 0 0 20px -5px rgba(29, 237, 115, 0.3);
+
+    /* client dashboard home */
+    /* ===== COLORS ===== */
+    --color-primary-hover: #00cc66;
+
+    --color-background-base: #031f14;
+    --color-background-dark: #01120b;
+
+    --color-card-dark: #062c1e;
+    --color-card-border: #0d422e;
+
+    --color-text-light: #f0fff4;
+    --color-text-muted: #8aafa1;
+
+    /* ===== RADIUS ===== */
+    --radius: 0.5rem;
+    --radius-xl: 1rem;
+    --radius-2xl: 1.5rem;
 }
 
 /* global style */
@@ -32,3 +50,4 @@ body {
 .custom-checkbox:checked {
     background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCIx1M5wSaSQjBE8CVTmFbF3c5crE4PtUXvphZ_zGPcKECdm05GDzY1K9JY8BFYoLm25Ft5_L8fiD5zCxGZysIL7rYgJrG8leCda5-o9DHHUWHj1qOv0qj1ycxhg52gjUmwOQWd4oOaEz4QO7Z2rZeUsXJ9RWS-NMuc_BVTAAk3q-VlZZJUmgRb67T0ZQWRAUNSowuG2tUH5t1N22LhlsNy9qz-rbMnvquhWmH22jR15TBp7Xm9bDPk4KCXIaHBiqNxqX-4wK2NNkg");
 }
+/* Auth End */
