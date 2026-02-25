@@ -80,3 +80,26 @@ body {
 .custom-checkbox:checked {
     background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCIx1M5wSaSQjBE8CVTmFbF3c5crE4PtUXvphZ_zGPcKECdm05GDzY1K9JY8BFYoLm25Ft5_L8fiD5zCxGZysIL7rYgJrG8leCda5-o9DHHUWHj1qOv0qj1ycxhg52gjUmwOQWd4oOaEz4QO7Z2rZeUsXJ9RWS-NMuc_BVTAAk3q-VlZZJUmgRb67T0ZQWRAUNSowuG2tUH5t1N22LhlsNy9qz-rbMnvquhWmH22jR15TBp7Xm9bDPk4KCXIaHBiqNxqX-4wK2NNkg");
 }
+
+/* app.css tambahan */
+@layer utilities {
+    .kalk-locked-blur {
+        filter: blur(12px) saturate(0.8);
+        pointer-events: none;
+        user-select: none;
+        opacity: 0.7;
+    }
+}
+
+/* Custom styling untuk range input agar tetap cantik di semua browser */
+input[type="range"] {
+    @apply appearance-none bg-transparent cursor-pointer;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    @apply w-full h-1.5 bg-card-border rounded-full;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    @apply appearance-none h-5 w-5 rounded-full bg-primary shadow-lg border-2 border-background-base -mt-1.5 transition-transform hover:scale-110;
+}

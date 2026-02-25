@@ -3,270 +3,243 @@
 @section('title', $title)
 
 @section('content')
-    <style>
-        .fitlife-icon {
-            width: 80px;
-            height: 80px;
-            background: #e8f8ef;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    <div class="relative min-h-screen bg-background-base transition-colors duration-300">
 
-        .fitlife-icon i {
-            font-size: 42px;
-            color: #1fb879;
-        }
-
-        .kalk-page-wrapper {
-            position: relative;
-        }
-
-        .kalk-page-wrapper.locked .kalk-content {
-            filter: blur(10px) saturate(.95);
-            pointer-events: none;
-            user-select: none;
-            opacity: 0.9;
-        }
-
-        .kalk-overlay {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 999;
-            pointer-events: auto;
-        }
-
-        .kalk-overlay .card {
-            max-width: 520px;
-            margin: 0 16px;
-            padding: 28px;
-            border-radius: 14px;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.98);
-            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
-        }
-
-        .kalk-overlay h4 {
-            margin-bottom: 8px;
-            font-weight: 700;
-            color: #184d3a;
-        }
-
-        .kalk-overlay p {
-            margin-bottom: 18px;
-            color: #4b5c54;
-        }
-
-        .kalk-overlay .btn {
-            min-width: 160px;
-        }
-
-        @media (max-width: 768px) {
-            .kalk-overlay .card {
-                padding: 20px;
-            }
-        }
-
-        .bmi-legend {
-            padding: 0;
-            margin: 0;
-            list-style: none;
-            display: grid;
-            gap: 10px;
-            font-weight: 600;
-            color: #374b47;
-            font-size: 14px;
-        }
-
-        .bmi-legend li {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .bmi-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            display: inline-block;
-            flex-shrink: 0;
-            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
-        }
-
-        .dot-low {
-            background: #2bb3d6;
-        }
-
-        .dot-normal {
-            background: #1fb879;
-        }
-
-        .dot-over {
-            background: #f2cf4d;
-        }
-
-        .dot-obese {
-            background: #ff6b6b;
-        }
-
-        .me-2 {
-            margin-right: .5rem !important;
-        }
-
-        .page-bottom-space {
-            padding-bottom: 150px;
-        }
-    </style>
-
-
-
-    <!-- wrapper used to toggle blur when guest -->
-    <div class="kalk-page-wrapper @guest locked @endguest">
-        <div class="kalk-content">
-            <section class="calc-hero text-center">
-                <div class="container">
-                    <div class="fitlife-icon mx-auto mb-2 mt-5"><i class="bi bi-activity"></i></div>
-                    <h2 class="fw-bold">Kalkulator BMI</h2>
-                    <p class="text-muted">
-                        Hitung indeks massa tubuh dan dapatkan rekomendasi kategori kesehatan Anda
-                    </p>
-                    <div class="hero-divider" aria-hidden="true"></div>
-                </div>
-            </section>
-            <div class="container page-bottom-space">
-                <style>
-                    .calc-row {
-                        --bs-gutter-x: 28px;
-                        --bs-gutter-y: 24px;
-                    }
-
-                    .calc-card {
-                        background: #fff;
-                        border-radius: 14px;
-                        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
-                    }
-
-                    .info-card {
-                        background: #fff;
-                        border-radius: 14px;
-                        box-shadow: 0 14px 34px rgba(0, 0, 0, 0.06);
-                        padding: 22px;
-                        height: 100%;
-                    }
-
-                    .kalk-overlay {
-                        z-index: 999;
-                    }
-
-                    .kalk-page-wrapper .info-card {
-                        z-index: 2;
-                        position: relative;
-                    }
-                </style>
-
-                <div class="row calc-row align-items-start">
-                    <div class="col-lg-7 col-md-8">
-                        <div class="card calc-card p-4 h-100">
-                            <form method="POST" action="{{ route('kalkulator') }}">
-                                @csrf
-                                <div class="mb-3">
-                                    <label for="gender" class="form-label">Jenis Kelamin</label>
-                                    <select name="gender" id="gender" class="form-select" required>
-                                        <option value="Pria">Pria</option>
-                                        <option value="Wanita">Wanita</option>
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="tinggi" class="form-label">Tinggi Badan (cm)</label>
-                                    <input type="number" name="tinggi" id="tinggi" class="form-control" required
-                                        min="1" placeholder="Contoh: 150">
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="berat" class="form-label">Berat Badan (kg)</label>
-                                    <input type="number" name="berat" id="berat" class="form-control" required
-                                        min="1" placeholder="Contoh: 43">
-                                </div>
-
-                                <button type="submit" class="btn btn-fitlife w-100">Hitung BMI</button>
-                            </form>
-
-                            @if (session('hasil'))
-                                <div class="bmi-result-wrapper mt-4">
-                                    <div class="bmi-result-card">
-                                        {!! session('hasil') !!}
-                                    </div>
-                                </div>
-                            @endif
-
-                            <div class="d-flex justify-content-center gap-4 mt-3 small text-muted flex-wrap">
-                                <div class="d-flex align-items-center gap-2">
-                                    <i class="bi bi-stopwatch"></i> <span>Hasil cepat & praktis</span>
-                                </div>
-                                <div class="d-flex align-items-center gap-2">
-                                    <i class="bi bi-clipboard-check"></i> <span>Kategori kesehatan jelas</span>
-                                </div>
-                                <div class="d-flex align-items-center gap-2">
-                                    <i class="bi bi-lightbulb"></i> <span>Bantu rencanakan pola hidup</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="text-center mt-3 small text-muted" style="max-width:600px;margin:0 auto;">
-                            Mengukur BMI membantu Anda memahami risiko kesehatan dan membuat keputusan gaya hidup yang lebih
-                            bijak.
-                        </div>
-                    </div>
-
-                    <div class="col-lg-5 col-md-6">
-                        <div class="info-card">
-                            <h4>Tentang BMI</h4>
-                            <p class="mb-2">
-                                Body Mass Index (BMI) adalah cara menghitung berat badan ideal berdasarkan tinggi dan berat
-                                badan Anda.
-                                Hasil membantu mengidentifikasi risiko kesehatan terkait berat badan.
-                            </p>
-
-                            <div class="mb-3 fw-bold">Kategori BMI:</div>
-
-                            <ul class="bmi-legend list-unstyled mb-0">
-                                <li><span class="bmi-dot dot-low me-2"></span>&lt; 18.5 : Berat Badan Rendah</li>
-                                <li><span class="bmi-dot dot-normal me-2"></span>18.5 – 24.9 : Normal</li>
-                                <li><span class="bmi-dot dot-over me-2"></span>25 – 29.9 : Berat Badan Berlebih</li>
-                                <li><span class="bmi-dot dot-obese me-2"></span>&gt; 30 : Obesitas</li>
-                            </ul>
-
-                            <hr>
-                            <h6 class="fw-bold">Tips singkat</h6>
-                            <ul class="small text-muted" style="padding-left:18px;">
-                                <li>Perbanyak sayur, kurangi gula dan makanan olahan.</li>
-                                <li>Jaga porsi makan dan rutin berolahraga ringan.</li>
-                                <li>Konsultasi ke ahli gizi untuk rekomendasi personal.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
+        {{-- Overlay Guest --}}
         @guest
-            <div class="kalk-overlay">
-                <div class="card text-center">
-                    <h4>Silakan login / daftar terlebih dahulu</h4>
-                    <p>Untuk mengakses kalkulator BMI ini, Anda harus masuk ke akun. Silakan login atau daftar untuk
-                        melanjutkan.</p>
-                    <div class="d-flex justify-content-center gap-2">
-                        <a href="{{ route('auth.login') }}" class="btn btn-fitlife">Masuk / Daftar</a>
-                        <a href="{{ route('home') }}" class="btn btn-outline-secondary">Kembali ke Beranda</a>
+            <div class="absolute inset-0 z-50 flex items-center justify-center px-4 backdrop-blur-sm bg-background-base/30">
+                <div class="w-full max-w-md p-8 text-center bg-card-dark border border-card-border rounded-2xl shadow-soft">
+                    <div class="size-16 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <span class="material-icons-round text-3xl">lock</span>
+                    </div>
+                    <h4 class="text-2xl font-bold text-text-light mb-2">Akses Terbatas</h4>
+                    <p class="text-text-muted mb-6 text-sm">Silakan login atau daftar akun FitLife terlebih dahulu untuk
+                        menggunakan fitur Kalkulator BMI kami.</p>
+                    <div class="flex flex-col gap-3">
+                        <a href="{{ route('auth.login') }}"
+                            class="w-full py-3 bg-primary text-background-base font-bold rounded-xl shadow-glow hover:bg-primary-hover transition-all">
+                            Masuk / Daftar Sekarang
+                        </a>
+                        <a href="{{ route('home') }}"
+                            class="text-sm font-semibold text-text-muted hover:text-primary transition-colors">
+                            Kembali ke Beranda
+                        </a>
                     </div>
                 </div>
             </div>
         @endguest
+
+        {{-- Content Wrapper --}}
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 @guest kalk-locked-blur @endguest">
+
+            {{-- Header --}}
+            <div class="text-center mb-12">
+                <div
+                    class="size-16 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
+                    <span class="material-icons-round text-4xl">monitor_weight</span>
+                </div>
+                <h1 class="text-3xl md:text-5xl font-black tracking-tighter text-text-light mb-3">Kalkulator BMI</h1>
+                <p class="text-text-muted max-w-2xl mx-auto">
+                    Hitung indeks massa tubuh Anda secara akurat untuk mengetahui status berat badan ideal dan langkah
+                    kesehatan selanjutnya.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+                {{-- Form Input --}}
+                <div class="lg:col-span-7 bg-card-dark border border-card-border rounded-2xl p-6 md:p-8 shadow-soft">
+                    <h3 class="text-xl font-bold text-text-light mb-8 flex items-center gap-2">
+                        <span class="material-icons-round text-primary">tune</span>
+                        Parameter Fisik
+                    </h3>
+
+                    <form action="{{ route('kalkulator') }}" method="POST" class="space-y-8">
+                        @csrf
+
+                        {{-- Gender Toggle --}}
+                        <div>
+                            <label class="block text-sm font-bold text-text-muted mb-4">Pilih Jenis Kelamin</label>
+                            <div class="grid grid-cols-2 gap-4">
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="gender" value="Pria" class="peer sr-only" checked>
+                                    <div
+                                        class="flex flex-col items-center justify-center p-4 border-2 border-card-border rounded-xl peer-checked:border-primary peer-checked:bg-primary/5 transition-all hover:border-primary/50">
+                                        <span
+                                            class="material-icons-round text-3xl mb-1 text-text-muted peer-checked:text-primary">male</span>
+                                        <span
+                                            class="text-sm font-bold text-text-muted peer-checked:text-text-light">Pria</span>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="gender" value="Wanita" class="peer sr-only">
+                                    <div
+                                        class="flex flex-col items-center justify-center p-4 border-2 border-card-border rounded-xl peer-checked:border-primary peer-checked:bg-primary/5 transition-all hover:border-primary/50">
+                                        <span
+                                            class="material-icons-round text-3xl mb-1 text-text-muted peer-checked:text-primary">female</span>
+                                        <span
+                                            class="text-sm font-bold text-text-muted peer-checked:text-text-light">Wanita</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        {{-- Sliders --}}
+                        <div class="space-y-6">
+                            {{-- Tinggi --}}
+                            <div x-data="{ height: 170 }">
+                                <div class="flex justify-between items-end mb-2">
+                                    <label class="text-sm font-bold text-text-muted">Tinggi Badan</label>
+                                    <div class="flex items-baseline gap-1">
+                                        <span class="text-2xl font-black text-primary" x-text="height"></span>
+                                        <span class="text-xs font-bold text-text-muted uppercase">cm</span>
+                                    </div>
+                                </div>
+                                <input type="range" name="tinggi" min="100" max="250" x-model="height"
+                                    class="w-full h-2">
+                            </div>
+
+                            {{-- Berat --}}
+                            <div x-data="{ weight: 65 }">
+                                <div class="flex justify-between items-end mb-2">
+                                    <label class="text-sm font-bold text-text-muted">Berat Badan</label>
+                                    <div class="flex items-baseline gap-1">
+                                        <span class="text-2xl font-black text-primary" x-text="weight"></span>
+                                        <span class="text-xs font-bold text-text-muted uppercase">kg</span>
+                                    </div>
+                                </div>
+                                <input type="range" name="berat" min="30" max="200" x-model="weight"
+                                    class="w-full h-2">
+                            </div>
+                        </div>
+
+                        <button type="submit"
+                            class="w-full py-4 bg-primary text-background-base font-black rounded-xl shadow-glow hover:bg-primary-hover transition-all flex items-center justify-center gap-2">
+                            <span class="material-icons-round">calculate</span>
+                            Hitung BMI Saya
+                        </button>
+                    </form>
+                </div>
+
+                {{-- Hasil & Info --}}
+                <div class="lg:col-span-5 space-y-6">
+
+                    {{-- Result Display (Hanya jika ada hasil) --}}
+                    @if (session('hasil'))
+                        <div class="bg-card-dark border border-primary/30 rounded-2xl p-6 shadow-glow transition-all">
+                            <h3 class="text-lg font-bold text-text-light mb-4 flex items-center gap-2">
+                                <span class="material-icons-round text-primary">analytics</span>
+                                Hasil Analisis
+                            </h3>
+                            <div class="flex flex-col items-center">
+                                {!! session('hasil') !!}
+                            </div>
+                        </div>
+                    @else
+                        {{-- Default Info Card --}}
+                        <div class="bg-card-dark border border-card-border rounded-2xl p-6 shadow-soft">
+                            <h3 class="text-lg font-bold text-text-light mb-4">Kenapa BMI Penting?</h3>
+                            <p class="text-text-muted text-sm leading-relaxed mb-6">
+                                Body Mass Index (BMI) adalah standar internasional untuk menentukan kategori berat badan
+                                ideal terhadap tinggi badan. Menjaga BMI normal membantu mengurangi risiko penyakit jantung,
+                                diabetes tipe 2, dan hipertensi.
+                            </p>
+
+                            <div class="space-y-3">
+                                <div
+                                    class="flex items-center gap-3 p-3 bg-background-base/50 rounded-lg border border-card-border">
+                                    <span class="size-3 rounded-full bg-blue-400"></span>
+                                    <span class="text-xs font-bold text-text-muted">
+                                        < 18.5 : Berat Badan Rendah</span>
+                                </div>
+                                <div
+                                    class="flex items-center gap-3 p-3 bg-background-base/50 rounded-lg border border-card-border">
+                                    <span class="size-3 rounded-full bg-primary"></span>
+                                    <span class="text-xs font-bold text-text-muted"> 18.5 – 24.9 : Normal (Ideal)</span>
+                                </div>
+                                <div
+                                    class="flex items-center gap-3 p-3 bg-background-base/50 rounded-lg border border-card-border">
+                                    <span class="size-3 rounded-full bg-yellow-400"></span>
+                                    <span class="text-xs font-bold text-text-muted"> 25.0 – 29.9 : Berlebih</span>
+                                </div>
+                                <div
+                                    class="flex items-center gap-3 p-3 bg-background-base/50 rounded-lg border border-card-border">
+                                    <span class="size-3 rounded-full bg-red-400"></span>
+                                    <span class="text-xs font-bold text-text-muted"> > 30.0 : Obesitas</span>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+
+
+                    {{-- Tips Card --}}
+                    <div class="bg-primary/5 border border-primary/20 rounded-2xl p-6">
+                        <div class="flex gap-3">
+                            <span class="material-icons-round text-primary">lightbulb</span>
+                            <div>
+                                <h4 class="text-sm font-bold text-text-light mb-1">Tips Cepat Sehat</h4>
+                                <ul class="text-xs text-text-muted space-y-2 list-disc ml-4 leading-relaxed">
+                                    <li>Perbanyak konsumsi serat dari buah dan sayuran segar.</li>
+                                    <li>Lakukan aktivitas fisik ringan minimal 30 menit sehari.</li>
+                                    <li>Pastikan hidrasi tubuh tercukupi dengan minum air mineral 2L/hari.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            {{-- BMI Classification Cards (Informasi Bawah) --}}
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in-up">
+                {{-- Underweight Card --}}
+                <div
+                    class="bg-card-dark border border-card-border p-6 rounded-2xl shadow-soft group hover:border-yellow-500/50 transition-all duration-300">
+                    <div
+                        class="w-12 h-12 bg-yellow-500/10 text-yellow-500 rounded-full flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
+                        <span class="material-icons-round">warning</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-text-light mb-1">Kekurangan Berat</h4>
+                    <p class="text-[10px] font-black text-text-muted mb-3 uppercase tracking-widest">BMI < 18.5</p>
+                            <p class="text-xs text-text-muted leading-relaxed font-medium">
+                                Perlu menambah asupan kalori bernutrisi dan latihan beban secara rutin untuk mencapai berat
+                                ideal.
+                            </p>
+                </div>
+
+                {{-- Normal Card --}}
+                <div
+                    class="bg-card-dark border border-primary/30 p-6 rounded-2xl shadow-soft group hover:border-primary transition-all duration-300 ring-1 ring-primary/20 scale-105 z-10">
+                    <div
+                        class="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
+                        <span class="material-icons-round">check_circle</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-text-light mb-1">Normal (Ideal)</h4>
+                    <p class="text-[10px] font-black text-primary mb-3 uppercase tracking-widest">BMI 18.5 - 24.9</p>
+                    <p class="text-xs text-text-muted leading-relaxed font-medium">
+                        Pertahankan gaya hidup aktif dan pola makan seimbang untuk menjaga berat badan Anda tetap stabil.
+                    </p>
+                </div>
+
+                {{-- Overweight Card --}}
+                <div
+                    class="bg-card-dark border border-card-border p-6 rounded-2xl shadow-soft group hover:border-red-500/50 transition-all duration-300">
+                    <div
+                        class="w-12 h-12 bg-red-500/10 text-red-500 rounded-full flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
+                        <span class="material-icons-round">priority_high</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-text-light mb-1">Kelebihan Berat</h4>
+                    <p class="text-[10px] font-black text-text-muted mb-3 uppercase tracking-widest">BMI 25.0 - 29.9</p>
+                    <p class="text-xs text-text-muted leading-relaxed font-medium">
+                        Disarankan untuk melakukan defisit kalori ringan dan olahraga kardio rutin guna menurunkan berat
+                        badan.
+                    </p>
+                </div>
+            </div>
+        </div>
+
     </div>
+
+
 @endsection
