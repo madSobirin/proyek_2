@@ -92,13 +92,13 @@ class HomeController extends Controller
             </span>
         </div>
 
-        <div class="mt-3" style="font-size:16px;color:#333;">
+        <div class="mt-3 text-text-muted text-sm">
             <div>Gender: ' . e($gender) . '</div>
             <div>Tinggi: ' . e($tinggi) . ' cm</div>
             <div>Berat: ' . e($berat) . ' kg</div>
         </div>
 
-        <div class="mt-3" style="font-size:20px;color:#444;">
+        <div class="mt-3 text-text-light text-base">
             <small>Kategori detail: ' . $kategori . '</small>
         </div>
 
