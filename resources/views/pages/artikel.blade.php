@@ -66,10 +66,12 @@
                         </div>
                         <div class="p-8 lg:p-12 flex flex-col justify-center">
                             <div class="flex items-center text-xs font-bold text-text-muted mb-4 space-x-4">
-                                <span class="flex items-center"><span class="material-icons text-base mr-1">schedule</span>
+                                <span class="flex items-center"><span
+                                        class="material-icons-round text-base mr-1">schedule</span>
                                     {{ $featured->created_at?->format('d M Y') }}</span>
                                 <span class="flex items-center"><span
-                                        class="material-icons text-base mr-1">visibility</span> {{ $featured->dibaca }}
+                                        class="material-icons-round text-base mr-1">visibility</span>
+                                    {{ $featured->dibaca }}
                                     views</span>
                             </div>
                             <h3
@@ -92,7 +94,7 @@
                                 </div>
                                 <a href="{{ route('artikel.show', $featured->slug) }}"
                                     class="inline-flex items-center text-primary font-bold hover:gap-3 transition-all">
-                                    Baca Selengkapnya <span class="material-icons ml-1 text-sm">arrow_forward</span>
+                                    Baca Selengkapnya <span class="material-icons-round ml-1 text-sm">arrow_forward</span>
                                 </a>
                             </div>
                         </div>
@@ -132,11 +134,12 @@
                             <div class="mt-auto flex items-center justify-between pt-4 border-t border-card-border">
                                 <div
                                     class="flex items-center text-[11px] font-bold text-text-muted uppercase tracking-wider">
-                                    <span class="material-icons text-sm mr-1">person</span> {{ $a->penulis ?? 'FitLife' }}
+                                    <span class="material-symbols-rounded text-sm mr-1">person</span>
+                                    {{ $a->penulis ?? 'FitLife' }}
                                 </div>
                                 <a href="{{ route('artikel.show', $a->slug) }}"
                                     class="text-primary group-hover:translate-x-1 transition-transform">
-                                    <span class="material-icons">arrow_forward</span>
+                                    <span class="material-icons-round">arrow_forward</span>
                                 </a>
                             </div>
                         </div>
@@ -146,7 +149,7 @@
                     <div class="col-span-full py-24 text-center">
                         <div
                             class="size-24 bg-card-dark border border-card-border rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-soft text-text-muted/20">
-                            <span class="material-icons-round text-5xl">find_in_page</span>
+                            <span class="material-symbols-rounded text-5xl">find_in_page</span>
                         </div>
                         <h4 class="text-xl font-bold text-text-light mb-2">Artikel Tidak Ditemukan</h4>
                         <p class="text-text-muted text-sm max-w-xs mx-auto">Kami tidak menemukan artikel untuk kategori

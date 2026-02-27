@@ -110,3 +110,11 @@ input[type="range"]::-webkit-slider-runnable-track {
 input[type="range"]::-webkit-slider-thumb {
     @apply appearance-none h-5 w-5 rounded-full bg-primary shadow-lg border-2 border-background-base -mt-1.5 transition-transform hover:scale-110;
 }
+
+.material-symbols-rounded {
+    font-family: "Material Symbols Rounded" !important;
+    font-weight: normal;
+    font-style: normal;
+    display: inline-block;
+    line-height: 1;
+}

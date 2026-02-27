@@ -18,6 +18,7 @@
 
     <div class="bg-background-base min-h-screen pb-20 transition-colors duration-300">
         {{-- Hero Header Profile --}}
+        {{-- jadi titik  --}}
         <div class="bg-background-dark py-12 transition-colors border-b border-card-border">
             <div class="max-w-4xl mx-auto px-4 text-center">
                 <h1 class="text-3xl font-black tracking-tighter text-text-light uppercase">Account Settings</h1>

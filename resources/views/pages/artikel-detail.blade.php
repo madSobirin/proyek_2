@@ -8,7 +8,7 @@
             <div class="max-w-4xl mx-auto px-4 text-center">
                 <a href="{{ route('artikel.index') }}"
                     class="inline-flex items-center gap-2 text-primary hover:text-primary-hover font-bold text-xs uppercase tracking-widest mb-8 transition-all group">
-                    <span class="material-icons transition-transform group-hover:-translate-x-1">arrow_back</span>
+                    <span class="material-icons-round transition-transform group-hover:-translate-x-1">arrow_back</span>
                     Kembali ke Artikel
                 </a>
                 <h1 class="text-3xl md:text-5xl font-black tracking-tighter text-text-light mb-6 leading-tight">
@@ -16,12 +16,14 @@
                 <div
                     class="flex flex-wrap justify-center items-center gap-6 text-xs font-bold text-text-muted uppercase tracking-widest">
                     <span class="flex items-center gap-2"><span
-                            class="material-icons text-primary text-base">calendar_today</span>
+                            class="material-icons-round text-primary text-base">calendar_today</span>
                         {{ $artikel->created_at?->format('d M Y') }}</span>
                     <span class="flex items-center gap-2"><span
-                            class="material-icons text-primary text-base">visibility</span> {{ $artikel->dibaca }} Kali
+                            class="material-icons-round text-primary text-base">visibility</span> {{ $artikel->dibaca }}
+                        Kali
                         Dibaca</span>
-                    <span class="flex items-center gap-2"><span class="material-icons text-primary text-base">person</span>
+                    <span class="flex items-center gap-2"><span
+                            class="material-icons-round text-primary text-base">person</span>
                         {{ $artikel->penulis ?? 'Admin' }}</span>
                 </div>
             </div>
@@ -48,7 +50,7 @@
                             <span class="text-xs font-black text-text-muted uppercase tracking-widest">Bagikan:</span>
                             <button
                                 class="size-10 rounded-xl border border-card-border flex items-center justify-center text-text-muted hover:text-primary hover:border-primary transition-all shadow-sm">
-                                <span class="material-icons text-lg">share</span>
+                                <span class="material-icons-round text-lg">share</span>
                             </button>
                         </div>
                         <div class="flex gap-2">
