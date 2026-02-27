@@ -56,7 +56,7 @@
     </section>
 
     {{-- Features Section --}}
-    <section class="py-20 bg-background-dark transition-colors duration-300">
+    <section class="py-20 bg-background-base transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold text-text-light mb-4">Fitur Unggulan FitLife.id</h2>
@@ -86,39 +86,112 @@
         </div>
     </section>
 
-    {{-- Terbaru Section --}}
-    <section class="py-16 bg-background-base border-t border-card-border transition-colors duration-300">
+    {{-- Section tanpa border-t --}}
+    <section class="py-16 bg-background-base transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-card-dark rounded-2xl p-6 shadow-soft border border-card-border">
+
+                <div class="bg-card-dark rounded-2xl p-6 shadow-soft">
                     <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-xl font-bold text-text-light">Menu Sehat Terbaru</h3>
-                        <a class="text-primary text-sm font-semibold hover:text-primary-hover transition"
-                            href="#">Lihat semua</a>
+                        <h3 class="text-xl font-bold text-text-light flex items-center gap-2">
+                            <span class="material-icons-round text-primary">restaurant_menu</span>
+                            Menu Sehat Terbaru
+                        </h3>
+                        <a class="text-primary text-sm font-semibold hover:text-primary-hover transition flex items-center gap-1"
+                            href="{{ route('menu') }}">
+                            Lihat semua <span class="material-icons-round text-xs">arrow_forward</span>
+                        </a>
                     </div>
-                    <div
-                        class="h-32 flex items-center justify-center text-text-muted italic bg-background-dark/30 rounded-xl border border-dashed border-card-border text-sm">
-                        Belum ada menu yang tersedia.
+
+                    <div class="space-y-4">
+                        @forelse($featuredMenus as $menu)
+                            {{-- Item: Mengubah 'border border-transparent' menjadi 'border-none' agar lebih bersih --}}
+                            <a href="{{ route('menu.show', $menu->id) }}"
+                                class="flex items-center gap-4 p-3 rounded-xl hover:bg-primary/5 transition-all group">
+                                <div class="size-14 rounded-lg overflow-hidden shrink-0">
+                                    <img src="{{ $menu->gambar ? Storage::url($menu->gambar) : asset('images/gambar_menu.jpg') }}"
+                                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                </div>
+                                <div class="grow">
+                                    <h4
+                                        class="text-sm font-bold text-text-light group-hover:text-primary transition-colors line-clamp-1">
+                                        {{ $menu->nama_menu }}
+                                    </h4>
+                                    <div
+                                        class="flex items-center gap-3 mt-1 text-[10px] font-black text-text-muted uppercase tracking-tighter">
+                                        <span class="flex items-center gap-1">
+                                            <span
+                                                class="material-icons-round text-primary text-[14px]">local_fire_department</span>
+                                            {{ $menu->kalori ?? '0' }} Kkal
+                                        </span>
+                                        <span class="flex items-center gap-1">
+                                            <span class="material-icons-round text-primary text-[14px]">schedule</span>
+                                            {{ $menu->waktu_memasak ?? '0' }}m
+                                        </span>
+                                    </div>
+                                </div>
+                                <span
+                                    class="material-icons-round text-text-muted/30 group-hover:text-primary group-hover:translate-x-1 transition-all">chevron_right</span>
+                            </a>
+                        @empty
+                            <div
+                                class="h-32 flex flex-col items-center justify-center text-text-muted italic bg-background-dark/30 rounded-xl text-sm border border-dashed border-card-border">
+                                <span class="material-icons-round mb-2 opacity-10 text-4xl">no_meals</span>
+                                Belum ada menu yang tersedia.
+                            </div>
+                        @endforelse
                     </div>
                 </div>
 
-                <div class="bg-card-dark rounded-2xl p-6 shadow-soft border border-card-border">
+                {{-- Card Artikel: Menghapus 'border border-card-border' --}}
+                <div class="bg-card-dark rounded-2xl p-6 shadow-soft">
                     <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-xl font-bold text-text-light">Artikel Terbaru</h3>
-                        <a class="text-primary text-sm font-semibold hover:text-primary-hover transition"
-                            href="#">Lihat semua</a>
+                        <h3 class="text-xl font-bold text-text-light flex items-center gap-2">
+                            <span class="material-icons-round text-primary">article</span>
+                            Artikel Terbaru
+                        </h3>
+                        <a class="text-primary text-sm font-semibold hover:text-primary-hover transition flex items-center gap-1"
+                            href="{{ route('artikel.index') }}">
+                            Lihat semua <span class="material-icons-round text-xs">arrow_forward</span>
+                        </a>
                     </div>
-                    <div
-                        class="h-32 flex items-center justify-center text-text-muted italic bg-background-dark/30 rounded-xl border border-dashed border-card-border text-sm">
-                        Belum ada artikel.
+
+                    <div class="space-y-4">
+                        @forelse($latestArticles as $artikel)
+                            <a href="{{ route('artikel.show', $artikel->slug) }}"
+                                class="flex items-center gap-4 p-3 rounded-xl hover:bg-primary/5 transition-all group">
+                                <div class="size-14 rounded-lg overflow-hidden shrink-0">
+                                    <img src="{{ $artikel->gambar ? Storage::url($artikel->gambar) : asset('images/default-article.jpg') }}"
+                                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                </div>
+                                <div class="grow">
+                                    <span class="text-[9px] font-black text-primary uppercase tracking-widest mb-1 block">
+                                        {{ $artikel->kategori }}
+                                    </span>
+                                    <h4
+                                        class="text-sm font-bold text-text-light group-hover:text-primary transition-colors line-clamp-1">
+                                        {{ $artikel->judul }}
+                                    </h4>
+                                </div>
+                                <span
+                                    class="material-icons-round text-text-muted/30 group-hover:text-primary group-hover:translate-x-1 transition-all">chevron_right</span>
+                            </a>
+                        @empty
+                            <div
+                                class="h-32 flex flex-col items-center justify-center text-text-muted italic bg-background-dark/30 rounded-xl text-sm border border-dashed border-card-border">
+                                <span class="material-icons-round mb-2 opacity-10 text-4xl">description</span>
+                                Belum ada artikel.
+                            </div>
+                        @endforelse
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
 
     {{-- Footer --}}
-    <footer class="bg-background-dark pt-12 pb-8 border-t border-card-border transition-colors duration-300">
+    <footer class="bg-background-base pt-12 pb-8 border-t border-card-border transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid md:grid-cols-4 gap-8 mb-8">
                 <div class="col-span-1 md:col-span-2">
