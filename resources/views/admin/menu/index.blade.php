@@ -33,7 +33,7 @@
                         <th>No</th>
                         <th>Foto</th>
                         <th>Menu</th>
-                        <th>Kalori</th>
+                        <th>Target Status</th>
                         <th>Waktu Memasak</th>
                         <th>Deskripsi</th>
                         <th>Aksi</th>
@@ -48,6 +48,12 @@
                                     alt="Menu {{ $item->nama_menu }}" class="rounded" width="100" height="100">
                             </td>
                             <td class="text-start">{{ $item->nama_menu }}</td>
+                            <td>
+                                <span
+                                    class="badge {{ $item->target_status == 'Normal' ? 'bg-success' : ($item->target_status == 'Kurus' ? 'bg-info' : 'bg-warning') }}">
+                                    {{ $item->target_status ?? '-' }}
+                                </span>
+                            </td>
                             <td>{{ !is_null($item->kalori ?? null) ? $item->kalori . ' kkal' : '-' }}</td>
                             <td>{{ !is_null($item->waktu_memasak ?? null) ? $item->waktu_memasak . ' menit' : '-' }}</td>
                             <td class="text-start">{!! Str::limit($item->deskripsi, 80) !!}</td>

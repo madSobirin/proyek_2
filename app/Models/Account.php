@@ -9,7 +9,7 @@ use Laravel\Sanctum\HasApiTokens;
 class Account extends Authenticatable
 {
     use Notifiable;
-    
+
     use HasApiTokens;
 
     protected $table = 'accounts';
@@ -47,5 +47,9 @@ class Account extends Authenticatable
     public function getBirthdateAttribute($value)
     {
         return $value;
+    }
+    public function perhitungans()
+    {
+        return $this->hasMany(Perhitungan::class, 'user_id');
     }
 }

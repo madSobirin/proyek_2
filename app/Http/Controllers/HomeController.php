@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Artikel;
 use App\Models\Menu;
+use App\Models\Perhitungan;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -32,7 +33,6 @@ class HomeController extends Controller
     {
         $title = "Kalkulator";
         $slug  = "kalkulator";
-        $konten = "Kalkulator Ideal";
 
         if ($request->isMethod('post')) {
             $request->validate([
@@ -41,75 +41,70 @@ class HomeController extends Controller
                 'berat'  => 'required|numeric|min:1',
             ]);
 
-            $gender = $request->gender;
             $tinggi = (float) $request->tinggi;
             $berat  = (float) $request->berat;
 
+            // Rumus BMI: $BMI = \frac{berat}{(tinggi/100)^2}$
             $bmi = $berat / pow(($tinggi / 100), 2);
             $bmiFormatted = number_format($bmi, 1);
 
+            // Penentuan Label
             if ($bmi < 18.5) {
                 $label = "Kurus";
-                $kategori = "Berat Badan Rendah";
-                $color = "#00B5D8";        // biru
-                $bg = "#00B5D815";         // biru soft
+                $color = "#00B5D8";
+                $bg = "#00B5D815";
             } elseif ($bmi <= 24.9) {
                 $label = "Normal";
-                $kategori = "Normal";
-                $color = "#26C281";        // hijau
-                $bg = "#26C28115";         // hijau soft
+                $color = "#26C281";
+                $bg = "#26C28115";
             } elseif ($bmi <= 29.9) {
                 $label = "Berlebih";
-                $kategori = "Berat Badan Berlebih";
-                $color = "#F4C542";        // kuning
-                $bg = "#F4C54215";         // kuning soft
+                $color = "#F4C542";
+                $bg = "#F4C54215";
             } else {
                 $label = "Obesitas";
-                $kategori = "Obesitas";
-                $color = "#E74C3C";        // merah
-                $bg = "#E74C3C15";         // merah soft
+                $color = "#E74C3C";
+                $bg = "#E74C3C15";
             }
 
-            // Hasil HTML lengkap dengan card background
+            // SIMPAN KE DATABASE
+            if (auth()->check()) {
+                Perhitungan::create([
+                    'user_id' => auth()->id(),
+                    'tinggi_badan' => $tinggi,
+                    'berat_badan' => $berat,
+                    'bmi' => $bmi,
+                    'status' => $label,
+                ]);
+            }
+
+            // AMBIL DATA REKOMENDASI UNTUK HALAMAN YANG SAMA
+            $rekomendasiArtikel = Artikel::where('kategori', 'like', "%$label%")
+                ->orWhere('judul', 'like', "%$label%")
+                ->take(3)->get();
+
+            $rekomendasiMenu = Menu::where('target_status', $label)
+                ->latest()->take(3)->get();
+
+            // Tampilan Hasil Card
             $hasil = '
-<div class="p-4 rounded mt-4" style="background:' . $bg . '; border-radius:16px;">
-    <div class="text-center">
+        <div class="p-5 rounded-2xl text-center" style="background:' . $bg . ';">
+            <div style="font-size:24px; font-weight:800; color:' . $color . ';">BMI: ' . $bmiFormatted . '</div>
+            <div class="mt-2 mb-4">
+                <span style="padding:6px 20px; border-radius:50px; background:' . $color . '; color:white; font-weight:700;">' . $label . '</span>
+            </div>
+            <p class="text-text-muted text-sm">Berdasarkan profil Anda, silakan cek rekomendasi menu dan artikel di bawah ini.</p>
+        </div>';
 
-        <div style="font-size:22px;font-weight:700;color:' . $color . ';">
-            BMI Anda: ' . $bmiFormatted . '
-        </div>
-
-        <div class="mt-2">
-            <span style="
-                display:inline-block;
-                padding:6px 16px;
-                border-radius:40px;
-                background:' . $color . ';
-                color:white;
-                font-weight:700;
-            ">
-                ' . $label . '
-            </span>
-        </div>
-
-        <div class="mt-3 text-text-muted text-sm">
-            <div>Gender: ' . e($gender) . '</div>
-            <div>Tinggi: ' . e($tinggi) . ' cm</div>
-            <div>Berat: ' . e($berat) . ' kg</div>
-        </div>
-
-        <div class="mt-3 text-text-light text-base">
-            <small>Kategori detail: ' . $kategori . '</small>
-        </div>
-
-    </div>
-</div>';
-
-            return redirect()->back()->with('hasil', $hasil);
+            return redirect()->back()->with([
+                'hasil' => $hasil,
+                'artikel_terkait' => $rekomendasiArtikel,
+                'rekomendasi_menu' => $rekomendasiMenu,
+                'status_bmi' => $label
+            ]);
         }
 
-
-        return view('pages.kalkulator', compact('title', 'slug', 'konten'));
+        return view('pages.kalkulator', compact('title', 'slug'));
     }
 
     public function HalamanProfile()

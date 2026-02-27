@@ -5,9 +5,22 @@
     <form action="{{ route('admin.menu.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
-        <div class="mb-3">
-            <label>Nama Menu</label>
-            <input type="text" name="nama_menu" class="form-control" required>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="fw-bold">Nama Menu</label>
+                <input type="text" name="nama_menu" class="form-control" required>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="fw-bold text-success">Target Status (Untuk Rekomendasi BMI)</label>
+                <select name="target_status" class="form-select" required>
+                    <option value="" selected disabled>-- Pilih Kategori BMI --</option>
+                    <option value="Kurus">Kurus (BMI < 18.5)</option>
+                    <option value="Normal">Normal (BMI 18.5 - 24.9)</option>
+                    <option value="Berlebih">Berlebih (BMI 25.0 - 29.9)</option>
+                    <option value="Obesitas">Obesitas (BMI > 30.0)</option>
+                </select>
+            </div>
         </div>
 
         <div class="mb-3">

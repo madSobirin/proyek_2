@@ -90,6 +90,21 @@
                 </div>
             @endif
 
+            @if (request('status'))
+                <div class="mb-8 p-4 bg-primary/10 border border-primary/20 rounded-2xl flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <span class="material-icons-round text-primary">auto_awesome</span>
+                        <div>
+                            <h4 class="text-sm font-bold text-text-light">Menu Rekomendasi Untuk Anda</h4>
+                            <p class="text-xs text-text-muted">Menampilkan menu yang cocok untuk status BMI:
+                                <strong>{{ request('status') }}</strong></p>
+                        </div>
+                    </div>
+                    <a href="{{ route('menu') }}" class="text-xs font-bold text-primary hover:underline text-right">Hapus
+                        Filter</a>
+                </div>
+            @endif
+
             {{-- Menu Grid --}}
             <div class="flex justify-between items-end mb-8">
                 <div>

@@ -16,6 +16,18 @@
             @enderror
         </div>
 
+        {{-- Letakkan di bawah input Nama Menu pada file Edit --}}
+        <div class="mb-3">
+            <label class="fw-bold text-primary">Target Status Rekomendasi</label>
+            <select name="target_status" class="form-select @error('target_status') is-invalid @enderror">
+                <option value="" disabled>-- Pilih Kategori BMI --</option>
+                <option value="Kurus" {{ $menu->target_status == 'Kurus' ? 'selected' : '' }}>Kurus</option>
+                <option value="Normal" {{ $menu->target_status == 'Normal' ? 'selected' : '' }}>Normal</option>
+                <option value="Berlebih" {{ $menu->target_status == 'Berlebih' ? 'selected' : '' }}>Berlebih</option>
+                <option value="Obesitas" {{ $menu->target_status == 'Obesitas' ? 'selected' : '' }}>Obesitas</option>
+            </select>
+        </div>
+
         <div class="mb-3">
             <label>Deskripsi</label>
             {{-- textarea sekarang menggunakan name="deskripsi" dan id="deskripsi" untuk TinyMCE --}}
