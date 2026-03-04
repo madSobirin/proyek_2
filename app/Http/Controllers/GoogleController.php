@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
-use App\Models\Account; // ganti kalau modelmu lain
+use App\Models\Account;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use Google_Client;
 
 class GoogleController extends Controller
 {
@@ -123,5 +124,67 @@ class GoogleController extends Controller
         $request->session()->regenerate();
 
         return redirect()->intended(route('home'));
+    }
+
+
+    public function loginWithGoogle(Request $request)
+    {
+        $request->validate([
+            'id_token' => 'required'
+        ]);
+
+        $client = new Google_Client([
+            'client_id' => env('GOOGLE_CLIENT_ID')
+        ]);
+
+        $payload = $client->verifyIdToken($request->id_token);
+
+        if (!$payload) {
+            return response()->json([
+                'message' => 'Invalid Google token'
+            ], 401);
+        }
+
+        $email = $payload['email'];
+        $name = $payload['name'];
+        $googleId = $payload['sub'];
+
+        $account = Account::where('email', $email)
+            ->orWhere('google_id', $googleId)
+            ->first();
+
+        if (!$account) {
+            // Generate unique username
+            $baseUsername = Str::slug(explode(' ', $name)[0] ?? $name);
+            $username = $baseUsername ?: 'user';
+            $counter = 0;
+            while (Account::where('username', $username)->exists()) {
+                $counter++;
+                $username = $baseUsername . $counter;
+            }
+
+            $account = Account::create([
+                'nama_lengkap' => $name,
+                'username' => $username,
+                'email' => $email,
+                'google_id' => $googleId,
+                'password' => bcrypt(Str::random(16)),
+                'role' => 'user',
+                'is_active' => 1,
+                'last_login_at' => now(),
+            ]);
+        } else {
+            // Update existing account if needed
+            $update = ['last_login_at' => now()];
+            if (!$account->google_id) $update['google_id'] = $googleId;
+            $account->update($update);
+        }
+
+        $token = $account->createToken('mobile')->plainTextToken;
+
+        return response()->json([
+            'user' => $account,
+            'token' => $token
+        ]);
     }
 }
